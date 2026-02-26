@@ -21,7 +21,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-from main import Base
+from app.models.base import Base
 
 target_metadata = Base.metadata
 
