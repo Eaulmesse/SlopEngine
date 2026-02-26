@@ -1,0 +1,94 @@
+# Configuration OpenCode pour SlopEngine
+# Optimisée pour DRY, économie de tokens et performance
+
+# Stratégie de cache pour éviter la relecture inutile
+cache:
+  enabled: true
+  ttl: 300  # 5 minutes en secondes
+  strategy: mtime  # Utilise le timestamp de modification
+  max_size: 100  # Nombre maximum d'entrées en cache
+
+# Optimisations de tokens
+token_optimization:
+  concise_responses: true
+  max_lines_per_response: 4
+  skip_preamble: true
+  skip_postamble: true
+  direct_answers: true
+
+# Stratégies DRY (Don't Repeat Yourself)
+dry:
+  reuse_patterns: true
+  reference_existing_code: true
+  follow_conventions: true
+  file_path_references: true  # Utilise file_path:line_number pour les références
+
+# Structure du projet
+project_structure:
+  backend: fastapi/
+  frontend: nextjs/
+  ignore_patterns:
+    - node_modules/
+    - __pycache__/
+    - .git/
+    - .venv/
+    - .env
+    - *.log
+
+# Comportement par défaut
+behavior:
+  proactive_verification: true
+  lint_after_edit: true
+  typecheck_after_edit: true
+  test_after_changes: true
+  commit_only_when_asked: true
+
+# Extensions prioritaires
+priority_extensions:
+  - .py
+  - .js
+  - .ts
+  - .tsx
+  - .jsx
+  - .json
+  - .yaml
+  - .yml
+  - .md
+
+# Commandes de vérification (à adapter selon le projet)
+verification_commands:
+  python_backend:
+    lint: "cd fastapi && python -m black --check . && python -m flake8"
+    typecheck: "cd fastapi && python -m mypy ."
+    test: "cd fastapi && python -m pytest"
+  
+  nextjs_frontend:
+    lint: "cd nextjs && npm run lint"
+    typecheck: "cd nextjs && npm run typecheck"
+    test: "cd nextjs && npm test"
+    build: "cd nextjs && npm run build"
+
+# Stratégie de recherche optimisée
+search_strategy:
+  parallel_tool_calls: true
+  batch_searches: true
+  use_glob_before_grep: true
+  max_parallel_searches: 3
+
+# Limites de sécurité
+security:
+  max_file_size_mb: 10
+  disallowed_patterns:
+    - "*.pem"
+    - "*.key"
+    - "*.secret"
+    - "credentials*"
+    - "password*"
+  refuse_malicious_code: true
+
+# Journalisation
+logging:
+  level: info
+  cache_hits: true
+  token_usage: true
+  performance_metrics: true
